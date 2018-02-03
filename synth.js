@@ -42,6 +42,11 @@ class Synth {
     this.oscGain.connect(destination);
   }
   
+  disconnect(time=0) {
+    this.osc.disconnect(time);
+    this.oscGain.disconnect(time);
+  }
+  
   start(time=0) {
     this.osc.start(time);
   }
@@ -49,4 +54,6 @@ class Synth {
   stop(time=0) {
     this.osc.stop(time);
   }
+  
+  
 }

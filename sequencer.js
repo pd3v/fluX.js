@@ -27,11 +27,11 @@ class Sequencer {
   }
   
   static synth(value) {
-    Sequencer.sType = value + '(ac)';
-    return this;
+      Sequencer.sType = value + '(ac)';
+      return this; 
   }
   
-  static start(bpm=90, pattern=[6]) {
+  static start(bpm=90, pattern=[8]) {
     let waveTypes = ['sine', 'triangle', 'sawtooth', 'square'];
     let chromScale = [0, 261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.00, 415.30, 440.00, 466.16, 493.88, 523.25];
     let beat = {32: 125, 16: 250, 8: 500, 3: 333, 4: 1000, 2: 2000, 1: 4000}
@@ -55,7 +55,10 @@ class Sequencer {
     asynth.start(ac.currentTime+asynth.adsr[0]);
     asynth.stop(ac.currentTime+(beat[Sequencer.spattern[cont%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60)+asynth.adsr[3]);
     
-    setTimeout(Sequencer.start, ac.currentTime+(beat[Sequencer.spattern[cont%Sequencer.spattern.length]]*(60/Sequencer.sbpm))+asynth.adsr[3], Sequencer.sbpm, Sequencer.spattern);
+    asynth.osc.onended = function() {
+      setTimeout(Sequencer.start, 0, Sequencer.sbpm, Sequencer.spattern);
+    };
+    
     cont++;
   }
 }
