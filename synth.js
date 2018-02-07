@@ -5,11 +5,11 @@ class Synth {
     this.adsrEnv = adsr;
   }
   
-  get type() {
+  get waveType() {
     return this.osc.type;
   }
   
-  set type(type) {
+  set waveType(type) {
     this.osc.type = type;
   }
   
@@ -54,6 +54,4 @@ class Synth {
   stop(time=0) {
     this.osc.stop(time);
   }
-  
-  
 }
