@@ -2,7 +2,7 @@
 A nano API for generative music in the browser.
 
 ## How to use it
-Add references to **sequencer.js**, **generator.js" and **synth.js** on your website project,
+Add references to **sequencer.js**, **generator.js** and **synth.js** on your website project,
 
 ```javascript
 
