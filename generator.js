@@ -1,10 +1,9 @@
 class Generator {
-  constructor(notesScale={'c':'60'}, genFunc) {    
-    Generator.gCounter = 0;
+  constructor(notesScale={'c':'60'}, genFunc=_=>{return {note: 0, octave:3}}) {    
     Generator.gScale = notesScale;
-    Generator.gGenFunc = genFunc;
+    Generator.genFunc = genFunc;
   }
-  
+
   get scale() {
     return Generator.gScale;
   }
@@ -21,20 +20,13 @@ class Generator {
     return Generator.note();
   }
   
-  static set note(value) {
-    Generator.gGenFunc = genFunc;
-    this.gNote = value;
-  }
-  
-  static note(){
-    let octave = ((Math.random()*6)+1).toFixed(0)*12; 
-    let midiNote = parseInt(Object.values(Generator.gScale)[(Math.random()*(Object.keys(Generator.gScale).length-1)).toFixed(0)]) + octave; 
+  static note(){  
+    let genFunc = Generator.genFunc()
+    let midiNote = Object.values(Generator.gScale)[genFunc.note]+(genFunc.octave)*12;
     let note = Generator.MIDINoteToFreq(midiNote);
     
-    if (note == null || note <= 40) {note = 0;}
-    
-    Generator.gCounter++;
-    
+    if (note == null || note <= 40) { note = 0; }
+        
     return note;
   }
 }

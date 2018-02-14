@@ -3,23 +3,23 @@ class Sequencer {
   }
     
   get synth() {
-    return Sequencer.sType;
+    return Sequencer.synth;
   }
   
   static set synth(value) {
-    Sequencer.sType = value + '(ac)';
+    Sequencer.synth = value + '(ac)';
   }
   
   get generator() {
-    return Sequencer.sGen;
+    return Sequencer.gen;
   }
   
   static set generator(scale) {
-    Sequencer.sGen = eval('new Generator('+JSON.stringify(scale)+')');
+    Sequencer.gen = eval('new Generator('+JSON.stringify(scale)+','+f+')');
   }
   
   get bpm() {
-    return Sequencer.sbpm;
+    return Sequencer.bpm;
   }
   
   static set bpm(value) {
@@ -27,7 +27,7 @@ class Sequencer {
   }
   
   get pattern() {
-    return Sequencer.spattern;
+    return Sequencer.pattern;
   }
   
   static set pattern(value) {
@@ -35,13 +35,13 @@ class Sequencer {
   }
   
   static synth(value) {
-    Sequencer.sType = value + '(ac)';
+    Sequencer.synth = value + '(ac)';
     return this; 
   }
 
-  static generator(scale) {
-    Sequencer.sCounter = 1;
-    Sequencer.sGen = eval('new Generator('+JSON.stringify(scale)+')');
+  static generator(scale, f) {
+    Sequencer.counter = 0;
+    Sequencer.gen = eval('new Generator('+JSON.stringify(scale)+','+f+')');
     return this; 
   }
   
@@ -52,22 +52,23 @@ class Sequencer {
     Sequencer.sbpm = bpm;
     Sequencer.spattern = pattern;
     
-    let asynth = eval('new '+Sequencer.sType);
+    let asynth = eval('new '+Sequencer.synth);
     asynth.waveType = waveTypes[(Math.random()*3).toFixed(0)];
     
-    asynth.frequency = Sequencer.sGen.note;
-    asynth.adsr = [0.0, 0.0, (beat[Sequencer.spattern[Sequencer.sCounter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60), 0.01];
+    asynth.frequency = Sequencer.gen.note;
+    asynth.adsr = [0.0, 0.0, (beat[Sequencer.spattern[Sequencer.counter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60), 0.01];
   
     asynth.connect(analyser);    
     asynth.connect(ac.destination);
 
     asynth.start(ac.currentTime+asynth.adsr[0]);
-    asynth.stop(ac.currentTime+(beat[Sequencer.spattern[Sequencer.sCounter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60)+asynth.adsr[3]);
+    asynth.stop(ac.currentTime+(beat[Sequencer.spattern[Sequencer.counter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60)+asynth.adsr[3]);
     
     asynth.osc.onended = function() {
       setTimeout(Sequencer.start, 0, Sequencer.sbpm, Sequencer.spattern);
     };
     
-    Sequencer.sCounter++;
+    Sequencer.counter++;
+    Sequencer.gen.counter = Sequencer.counter;
   }
 }
