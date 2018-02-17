@@ -12,21 +12,16 @@ class Generator {
     Generator.gScale = value;
   }
   
-  static MIDINoteToFreq(midiNote) {
-    return (2**((midiNote-69.0)/12))*440.0; 
-  }
-  
   get note() {
     return Generator.note();
   }
   
   static note(){  
-    let genFunc = Generator.genFunc()
-    let midiNote = Object.values(Generator.gScale)[genFunc.note]+(genFunc.octave)*12;
-    let note = Generator.MIDINoteToFreq(midiNote);
+    var noteObject = Generator.genFunc();
+    noteObject.note = Object.values(Generator.gScale)[noteObject.note]+(noteObject.octave)*12;
     
-    if (note == null || note <= 40) { note = 0; }
-        
-    return note;
+    if (noteObject.note == null || noteObject.note < 24) { noteObject.note = 0; }
+    
+    return noteObject;
   }
 }

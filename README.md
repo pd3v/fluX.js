@@ -40,7 +40,7 @@ let f = _ => {
   }
   
   if (ascending) {
-    return {note:(Sequencer.counter%scaleLength), octave: 4};
+    return {note:Sequencer.counter%scaleLength, octave: 4};
   } else {
     return {note:scaleLength-Sequencer.counter%scaleLength-1, octave:5};
   }

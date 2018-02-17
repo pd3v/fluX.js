@@ -5,6 +5,14 @@ class Synth {
     this.adsrEnv = adsr;
   }
   
+  MIDINoteToFreq(midiNote) {
+    return (2**((midiNote-69.0)/12))*440.0; 
+  }
+  
+  MIDIValueToAmp(midiValue) {
+    return midiValue/127.0;
+  }
+  
   get waveType() {
     return this.osc.type;
   }
@@ -13,12 +21,13 @@ class Synth {
     this.osc.type = type;
   }
   
-  get frequency() {
+  get note() {
+    console.log(this.osc.frequency.value);
     return this.osc.frequency.value;
   }
   
-  set frequency(frequency) {
-    this.osc.frequency.setValueAtTime(frequency, 0);
+  set note(note) {    
+    this.osc.frequency.setValueAtTime(this.MIDINoteToFreq(note), 0);
   }
   
   get adsr() {
@@ -34,7 +43,7 @@ class Synth {
   }
   
   set gain(value) {
-    this.oscGain.gain.setValueAtTime(value, 0);
+    this.oscGain.gain.setValueAtTime(this.MIDIValueToAmp(value), 0);
   }
 
   connect(destination) {
