@@ -6,7 +6,7 @@ let scaleLength = Object.values(bluesScale).length;
 let f = _ => {
   let randomNote = (Math.random()*Sequencer.counter%(scaleLength-1)).toFixed(0);
   let randomOctave = Math.random()*3+2;
-  return {note: randomNote, octave: randomOctave};
+  return {note:randomNote, vel:100, oct:randomOctave};
 }
 
 Sequencer.generator(bluesScale, f).synth('Synth').start(120, pattern);
