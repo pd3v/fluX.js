@@ -3,13 +3,14 @@ class Synth {
     this.osc = ac.createOscillator();
     this.oscGain = ac.createGain();
     this.adsrEnv = adsr;
+    this.osc.type = 'sawtooth';
   }
   
   MIDINoteToFreq(midiNote) {
-    return (2**((midiNote-69.0)/12))*440.0; 
+    return (2**((midiNote-69.0)/12))*440.0;
   }
   
-  MIDIValueToAmp(midiValue) {
+  MIDIVelToAmp(midiValue) {
     return midiValue/127.0;
   }
   
@@ -17,16 +18,16 @@ class Synth {
     return this.osc.type;
   }
   
-  set waveType(type) {
+  static waveType(type) {
+    console.log(type);
     this.osc.type = type;
   }
   
   get note() {
-    console.log(this.osc.frequency.value);
     return this.osc.frequency.value;
   }
   
-  set note(note) {    
+  set note(note) {
     this.osc.frequency.setValueAtTime(this.MIDINoteToFreq(note), 0);
   }
   
@@ -38,12 +39,12 @@ class Synth {
     this.adsrEnv = value;
   }
   
-  get gain() {
+  get vel() {
     return this.oscGain.gain.value;
   }
   
-  set gain(value) {
-    this.oscGain.gain.setValueAtTime(this.MIDIValueToAmp(value), 0);
+  set vel(value) {
+    this.oscGain.gain.setValueAtTime(this.MIDIVelToAmp(value), 0);
   }
 
   connect(destination) {
