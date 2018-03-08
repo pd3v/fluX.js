@@ -16,7 +16,7 @@ class MidiOut {
   
   sendNote(noteObject) {
     if (MidiOut.moutputMIDI != undefined) {
-      var noteOnMessage = [0x90, noteObject.note, noteObject.vel]; 
+      let noteOnMessage = [0x90, noteObject.note, noteObject.vel]; 
       let noteOffMessage = [0x80, noteObject.note, 0x00];
       
       MidiOut.moutputMIDI.send(noteOnMessage);

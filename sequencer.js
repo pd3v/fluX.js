@@ -54,7 +54,6 @@ class Sequencer {
   }
   
   static synth(value) {
-    console.log('synth('+value+')');
     if (value != undefined && value != null) {
       Sequencer.synth = value + '(ac)';
       
@@ -86,10 +85,11 @@ class Sequencer {
       Sequencer.midiOut = eval('new MidiOut("'+value+'")');
       
       Sequencer.play = function() {
-        let noteObject = Sequencer.gen.note;
+        var noteObject = Sequencer.gen.note;
         
-        Sequencer.midiOut.sendNote(Sequencer.beatToMiliSeconds(noteObject));
-        setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), Sequencer.sbpm, Sequencer.spattern);
+        noteObject = Sequencer.beatToMiliSeconds(noteObject);
+        Sequencer.midiOut.sendNote(noteObject);
+        setTimeout(Sequencer.start, noteObject.dur, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }
