@@ -5,9 +5,9 @@ let scaleLength = Object.values(bluesScale).length;
 var noteInc = 0;
 let f = _ => { 
   if (Sequencer.counter%12 == 0) {
-    return {note:(noteInc++)%scaleLength, octave: 3};
+    return {note:(noteInc++)%scaleLength, vel:100 ,oct:3};
   } else {
-    return {note:Sequencer.counter%scaleLength, octave: 5};
+    return {note:Sequencer.counter%scaleLength, vel:100, oct:5};
   }
 }
 

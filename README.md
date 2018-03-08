@@ -44,9 +44,9 @@ let f = _ => {
   }
   
   if (ascending) {
-    return {note: scaleIndex, vel:scaleIndex>=2 && scaleIndex<=4? 127: 39, octave: 4};
+    return {note: scaleIndex, vel:scaleIndex>=2 && scaleIndex<=4? 127: 39, oct: 4};
   } else {
-    return {note:scaleLength-scaleIndex-1, vel:scaleLength-scaleIndex-1>=2 && scaleLength-scaleIndex-1<=4? 15: 127, octave:5};
+    return {note:scaleLength-scaleIndex-1, vel:scaleLength-scaleIndex-1>=2 && scaleLength-scaleIndex-1<=4? 15: 127, oct:5};
   }
 }
 
