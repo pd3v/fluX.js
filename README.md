@@ -36,5 +36,9 @@ let f = _ => {
   }
 }
 
-Sequencer.generator(bluesScale, f).synth('Synth').start(120, pattern)
+// to send those notes to your favorite soft/hard synth
+Sequencer.generator(bluesScale, f).MIDIOut('midi port1').start(120, pattern);
+
+// to send those same notes to API's synth 'Synth'
+//Sequencer.generator(bluesScale, f).synth('Synth').start(120, pattern);
 ```

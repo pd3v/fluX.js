@@ -19,7 +19,6 @@ class Synth {
   }
   
   static waveType(type) {
-    console.log(type);
     this.osc.type = type;
   }
   
