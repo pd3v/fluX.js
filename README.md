@@ -9,6 +9,7 @@ Add references to **sequencer.js**, **generator.js** and **synth.js** on your we
 <script type="text/javascript" src="sequencer.js"></script>
 <script type="text/javascript" src="generator.js"></script>
 <script type="text/javascript" src="synth.js"></script>
+<script type="text/javascript" src="midiout.js"></script>
 
 ```
 
