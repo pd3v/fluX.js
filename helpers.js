@@ -32,3 +32,7 @@ const round = (number, precision=0) => {
   var factor = Math.pow(10, precision);
   return Math.round(number*factor)/factor;
 }
+
+const scaleTo = (min, max, minTo, maxTo, value) => {
+  return ((value-min)/(max-min))*(maxTo-minTo)+minTo;
+}

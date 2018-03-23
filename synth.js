@@ -3,7 +3,7 @@ class Synth {
     this.osc = ac.createOscillator();
     this.oscGain = ac.createGain();
     this.adsrEnv = adsr;
-    this.osc.type = 'sawtooth';
+    this.osc.type = 'triangle';
   }
 
   MIDINoteToFreq(midiNote) {

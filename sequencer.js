@@ -45,7 +45,7 @@ class Sequencer {
     const beat = {128: 31.25, 64: 62.5, 32: 125, 16: 250, 8: 500, 6: 666, 3: 333, 4: 1000, 2: 2000, 1: 4000};
 
     if (Object.keys(noteObject).includes('dur')) {
-      noteObject.dur = (beat[noteObject.dur]/1000)/(Sequencer.sbpm/60)*1000;
+      noteObject.dur = (beat[noteObject.dur < 128 ? noteObject.dur : 128]/1000)/(Sequencer.sbpm/60)*1000;
     } else {
       Object.assign(noteObject, {dur:(beat[Sequencer.spattern[Sequencer.counter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60)*1000});
     }
