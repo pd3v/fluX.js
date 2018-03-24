@@ -1,9 +1,12 @@
 class Synth {
   constructor(ac, adsr=[0.05, 0, 0.05, 0.05]) {
+    this.adsrEnv = adsr;
+    this.engine();
+  }
+
+  engine(){
     this.osc = ac.createOscillator();
     this.oscGain = ac.createGain();
-    this.adsrEnv = adsr;
-    this.osc.type = 'triangle';
   }
 
   MIDINoteToFreq(midiNote) {
@@ -14,11 +17,15 @@ class Synth {
     return midiValue/127.0;
   }
 
+  set onended(f) {
+    this.osc.onended = f;
+  }
+
   get waveType() {
     return this.osc.type;
   }
 
-  static waveType(type) {
+  set waveType(type) {
     this.osc.type = type;
   }
 

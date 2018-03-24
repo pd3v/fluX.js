@@ -71,7 +71,7 @@ class Sequencer {
         asynth.start(ac.currentTime+asynth.adsr[0]);
         asynth.stop(ac.currentTime+noteObject.dur/1000);
 
-        asynth.osc.onended = function() {
+        asynth.onended = function() {
           setTimeout(Sequencer.start, 0, Sequencer.sbpm, Sequencer.spattern);
         };
       }
