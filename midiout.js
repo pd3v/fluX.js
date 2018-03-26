@@ -34,7 +34,7 @@ class MidiOut {
       const noteOffMessage = [0x80, noteObject.note, 0x00];
 
       MidiOut.moutputMIDI.send(noteOnMessage);
-      MidiOut.moutputMIDI.send(noteOffMessage, window.performance.now()+noteObject.dur);
+      MidiOut.moutputMIDI.send(noteOffMessage, performance.now()+noteObject.dur);
     }
   }
 

@@ -1,12 +1,14 @@
 class Sequencer {
-  constructor(ac){}
+  get audioContext() {
+    return Sequencer.ac;
+  }
+
+  static set audioContext(value) {
+    Sequencer.ac = value;
+  }
 
   get synth() {
     return Sequencer.synth;
-  }
-
-  static set synth(value) {
-    Sequencer.synth = value + '(ac)';
   }
 
   get midiOutNamePort() {
@@ -53,27 +55,28 @@ class Sequencer {
     return noteObject;
   }
 
-  static synth(value) {
+  static synth(value, adsr={a:0,d:0,r:0}) {
     if (value != undefined && value != null) {
-      Sequencer.synth = value + '(ac)';
-
+      Sequencer.synth = value + '('+JSON.stringify(adsr)+')';
       Sequencer.play = function() {
         const asynth = eval('new '+Sequencer.synth);
-        const noteObject = Sequencer.beatToMiliSeconds(Sequencer.gen.note);
+        if (!Sequencer.ac) {
+          throw 'Sequencer has no audio context.';
+        }
+        asynth.audioContext = Sequencer.ac;
 
+        const noteObject = Sequencer.beatToMiliSeconds(Sequencer.gen.note);
         asynth.note = noteObject.note;
         asynth.vel = noteObject.vel;
-        asynth.adsr = [0.0, 0.0, noteObject.dur, 0.01];
+        asynth.adsr = adsr;
+        asynth.adsr.s = noteObject.dur/1000;
 
         asynth.connect(analyser);
-        asynth.connect(ac.destination);
+        asynth.connect(asynth.audioContext.destination);
 
-        asynth.start(ac.currentTime+asynth.adsr[0]);
-        asynth.stop(ac.currentTime+noteObject.dur/1000);
+        asynth.start(asynth.audioContext.currentTime);
 
-        asynth.onended = function() {
-          setTimeout(Sequencer.start, 0, Sequencer.sbpm, Sequencer.spattern);
-        };
+        setTimeout(Sequencer.start, noteObject.dur, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }
@@ -83,7 +86,6 @@ class Sequencer {
   static midiOut(value) {
     if (value != undefined && value != null) {
       Sequencer.midiOut = eval('new MidiOut("'+value+'")');
-
       Sequencer.play = function() {
         const noteObject = Sequencer.gen.note;
 

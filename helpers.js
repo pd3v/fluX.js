@@ -36,3 +36,8 @@ const round = (number, precision=0) => {
 const scaleTo = (min, max, minTo, maxTo, value) => {
   return ((value-min)/(max-min))*(maxTo-minTo)+minTo;
 }
+
+// a shorter console.log()
+const cl = s => {
+  return console.log(s);
+}
