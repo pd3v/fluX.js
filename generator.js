@@ -1,5 +1,5 @@
 class Generator {
-  constructor(notesScale={'c':0}, genFunc=_=>{return {note: 0, vel:0, oct:0}}) {
+  constructor(notesScale={c:0}, genFunc=_=>{return {note: 0, vel:0, oct:0}}) {
     Generator.gScale = notesScale;
     Generator.genFunc = genFunc;
   }
