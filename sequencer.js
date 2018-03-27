@@ -71,10 +71,10 @@ class Sequencer {
         asynth.adsr = adsr;
         asynth.adsr.s = noteObject.dur/1000;
 
-        asynth.connect(analyser);
-        asynth.connect(asynth.audioContext.destination);
+        asynth.connect(scope); // fix
+        asynth.connect(Sequencer.ac.destination);
 
-        asynth.start(asynth.audioContext.currentTime);
+        asynth.start(Sequencer.ac.currentTime);
 
         setTimeout(Sequencer.start, noteObject.dur, Sequencer.sbpm, Sequencer.spattern);
       }
