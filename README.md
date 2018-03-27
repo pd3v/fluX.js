@@ -1,5 +1,5 @@
 # fluX
-A nano API for generative music in the browser.
+A nano API for generative music in the browser. Check it out "in action" ➫ https://pd3v.github.io/
 
 ## How to use it
 Add references to **sequencer.js**, **generator.js** and **synth.js** on your website project,
@@ -23,13 +23,13 @@ let scaleLength = Object.values(bluesScale).length;
 var ascending = true;
 
 // 'f' function generates a Blues scale's random number of ascending or descending notes
-// with velocity changes for expressiveness 
-let f = _ => { 
+// with velocity changes for expressiveness
+let f = _ => {
   let scaleIndex = Sequencer.counter%scaleLength;
   if (scaleIndex*Math.random().toFixed(0) == 0) {
     ascending = !ascending;
   }
-  
+
   if (ascending) {
     return {note: scaleIndex, vel:scaleIndex>=2 && scaleIndex<=4? 127: 39, oct: 4};
   } else {
