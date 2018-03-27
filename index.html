@@ -84,17 +84,15 @@ ctx.canvas.height = window.innerHeight;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var ac = new AudioContext();
 
-var analyser = ac.createAnalyser();
-var bufferLength = analyser.frequencyBinCount;
+var scope = ac.createAnalyser();
+var bufferLength = scope.frequencyBinCount;
 var dataArray = new Uint8Array(bufferLength);
 var fps = 20;
 
-analyser.fftSize = 2048;
-analyser.getByteTimeDomainData(dataArray);
+scope.fftSize = 2048;
+scope.getByteTimeDomainData(dataArray);
 
-var audio = document.querySelector('audio');
-
-const CMinorScale = {'c':0, 'd':2, 'ef':3, 'f':5, 'g':7, 'af':8, 'bb':10};
+const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bb:10};
 const scaleLength = Object.values(CMinorScale).length;
 
 // function composition is using Markov Chains
@@ -121,8 +119,8 @@ f = _ => {
   let note;
   let noteIndex;
 
-  // Every 50 notes generate new phrasings
-  if (counter()%50 == 0) {
+  // Every 25 notes generate new phrasings
+  if (counter()%25 == 0) {
       compositionObj = composition(CMinorScale);
   }
 
@@ -132,70 +130,15 @@ f = _ => {
     note:phrasing[noteIndex], // randoms note from phrasing
     vel:127*(1-((noteIndex+1)/(phrasing.length))*0.5), // the smaller the phrasing higher the note's velocity
     dur:round((2**(phrasing.length))), // the bigger the phrasing shorter the note's duration
-    oct:Math.trunc(scaleTo(0,5,2,7,round(phrasing.reduce((accum, value)=>{
+    oct:Math.trunc(scaleTo(0,5,3,6,round(phrasing.reduce((accum, value)=>{
       accum += value;
       return accum;
-    })/phrasing.length))) // averages the phrasing content*/
+    })/phrasing.length))) // averages the phrasing content
   }
 }
 
-// SynthFM is an extension of the Synth class
-class SynthFM extends Synth {
-  engine() {
-    this.carrier = ac.createOscillator();
-    this.carrierGain = ac.createGain();
-    this.modulator = ac.createOscillator();
-    this.modulator.frequency.setValueAtTime(70, 0);
-    this.modulatorGain = ac.createGain();
-    this.modulatorGain.gain.setValueAtTime(50, 0)
-
-    this.modulator.connect(this.modulatorGain);
-  }
-
-  set onended(f) {
-    this.carrier.onended = f;
-  }
-
-  get note() {
-    return this.carrier.frequency.value;
-  }
-
-  set note(note) {
-    this.carrier.frequency.setValueAtTime(this.MIDINoteToFreq(note), 0);
-  }
-
-  get vel() {
-    return this.carrierGain.gain.value;
-  }
-
-  set vel(value) {
-    this.carrierGain.gain.setValueAtTime(this.MIDIVelToAmp(value), 0);
-  }
-
-  connect(destination) {
-    this.modulatorGain.connect(this.carrier.frequency);
-    this.carrier.connect(destination);
-  }
-
-  disconnect(time=0) {
-    this.modulator.disconnect(time);
-    this.modulatorGain.disconnect(time);
-    this.carrier.disconnect(time);
-    this.carrierGain.disconnect(time);
-  }
-
-  start(time=0) {
-    this.modulator.start(time);
-    this.carrier.start(time);
-  }
-
-  stop(time=0) {
-    this.modulator.stop(time);
-    this.carrier.stop(time);
-  }
-}
-
-Sequencer.generator(CMinorScale, f).synth('SynthFM').start(140);
+Sequencer.audioContext = ac; // fix
+Sequencer.generator(CMinorScale, f).synth('Synth',{a:0,d:0,r:1}).start(140);
 
 document.getElementById("code").innerHTML += '<span>'+composition+f+'</span>';
 
@@ -205,7 +148,7 @@ function drawWave() {
   var sliceWidth = ctx.canvas.width * 1.1 / bufferLength;
   var x = 0;
 
-  analyser.getByteTimeDomainData(dataArray);
+  scope.getByteTimeDomainData(dataArray);
 
   ctx.lineWidth = 0.5;
   ctx.strokeStyle = '#999999';
