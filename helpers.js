@@ -1,14 +1,18 @@
 // Helper functions
-const counter = _ => {
+const counterSeq = _ => {
   return Sequencer.counter;
 }
 
+const counter = _ => {
+  return Generator.counter;
+}
+
 const countTo = countTurn => {
-  return Sequencer.counter%(countTurn+1);
+  return Generator.counter%(countTurn+1);
 }
 
 const countFrom = countTurn => {
-  return countTurn-(Sequencer.counter%(countTurn+1));
+  return countTurn-(Generator.counter%(countTurn+1));
 }
 
 const linear = (from, to, spread=to) => {
