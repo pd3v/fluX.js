@@ -12,7 +12,7 @@ class Synth {
     this.engine();
   }
 
-  engine(){
+  engine() {
     this.osc = this.ac.createOscillator();
     this.oscGain = this.ac.createGain();
     this.osc.onended = _ => {
@@ -87,7 +87,6 @@ class Synth {
   stop(time=0) {
     try {
       this.oscGain.gain.linearRampToValueAtTime(0.0, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
-
       this.osc.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
     } catch(err) {
         console.log(err);
