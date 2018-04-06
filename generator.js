@@ -7,7 +7,7 @@ class Generator {
           postMessage({note:e.data.f});
         }
     }.toString(),
-    ')()'], {type: 'application/javascript'}));
+')()'], {type: 'application/javascript'}));
 
     Generator.genFunc = genFunc;
     Generator.notesQueue = Array(Generator.QUEUE_SIZE);
@@ -24,7 +24,7 @@ class Generator {
 
       Generator.queueIndex > 0 ? Generator.queueIndex-- : Generator.queueIndex = 0;
 
-      return note != undefined ? note : {note:0,vel:0,dur:1,oct:0}; //silence
+      return note != undefined ? note : {note:0,vel:0,dur:1,oct:3};
     }
   }
 
@@ -40,9 +40,9 @@ class Generator {
           e.data.note.vel = 0;
         }
         e.data.note.note = Object.values(Generator.gScale)[e.data.note.note]+(e.data.note.oct)*12;
-
-        Generator.notesQueue[Generator.queueInde] = e.data.note;
+        Generator.notesQueue[Generator.queueIndex] = e.data.note;
         Generator.queueIndex++;
+
         Generator.genNote();
 		  }
       Generator.counter++;
