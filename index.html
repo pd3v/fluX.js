@@ -156,7 +156,7 @@ const f = _ => {
   const du = round((2**(phrasing.length)))
   const n = phrasing[noteIndex];
   const v = 127*(1-((noteIndex+1)/(phrasing.length))*0.5);
-  const d = du >= 32 ? Math.trunc(rand(1,2))*3 : du;
+  const d = du;//du >= 32 ? Math.trunc(rand(1,2))*3 : du;
   const o = Math.trunc(scaleTo(0,5,3,5,round(phrasing.reduce((accum, value)=>{
     accum += value;
     return accum;
@@ -199,16 +199,16 @@ let ga = _ => {
 
 let blah = function(e) {
   return {
-    note:round(rand(0, scaleLength-1)),
+    note:counter()%scaleLength, //round(rand(0, scaleLength-1)),
     vel:100, // the smaller the phrasing higher the note's velocity
-    dur:2**(round(Math.random()*4)+1), // the bigger the phrasing shorter the note's duration
-    oct:4 // averages the phrasing content
+    dur:16,//counter()%2 == 0 ? 1 : 8,//2**(round(Math.random()*5)), // the bigger the phrasing shorter the note's duration
+    oct:5//counter()%2 == 0 ? 4 : 6//3//round(rand(3,4)) // averages the phrasing content
   }
 }
 
 Sequencer.audioContext = ac; // fix
-// Sequencer.generator(CMinorScale, f).synth('Synth',{a:0,d:0,r:0}).start(200);
-Sequencer.generator(CMinorScale, f).midiOut('midi port1').start(160);
+Sequencer.generator(CMinorScale, blah).synth('Synth',{a:0,d:0,r:0}).start(170);
+// Sequencer.generator(CMinorScale, blah).midiOut('midi port1').start(160);
 
 document.getElementById("code").innerHTML += '<span>'+composition+f+'</span>';
 
