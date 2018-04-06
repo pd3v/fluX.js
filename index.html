@@ -201,13 +201,13 @@ let blah = function(e) {
   return {
     note:counter()%scaleLength, //round(rand(0, scaleLength-1)),
     vel:100, // the smaller the phrasing higher the note's velocity
-    dur:16,//counter()%2 == 0 ? 1 : 8,//2**(round(Math.random()*5)), // the bigger the phrasing shorter the note's duration
-    oct:5//counter()%2 == 0 ? 4 : 6//3//round(rand(3,4)) // averages the phrasing content
+    dur:8,//counter()%2 == 0 ? 1 : 8,//2**(round(Math.random()*5)), // the bigger the phrasing shorter the note's duration
+    oct:counter()%2 == 0 ? 4 : 6//3//round(rand(3,4)) // averages the phrasing content
   }
 }
 
 Sequencer.audioContext = ac; // fix
-Sequencer.generator(CMinorScale, blah).synth('Synth',{a:0,d:0,r:0}).start(170);
+Sequencer.generator(CMinorScale, blah).synth('Synth',{a:0,d:0,r:0}).start(100);
 // Sequencer.generator(CMinorScale, blah).midiOut('midi port1').start(160);
 
 document.getElementById("code").innerHTML += '<span>'+composition+f+'</span>';
