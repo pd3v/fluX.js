@@ -74,20 +74,22 @@ class Synth {
     this.oscGain.disconnect(time);
   }
 
-  start(time=0) {
-    this.osc.start(time);
+  start(currentTime=0) {
+    this.osc.start(0);
 
     this.oscGain.gain.setValueAtTime(0,0);
-    this.oscGain.gain.linearRampToValueAtTime(this.sVel, time+this.adsrEnv.a);
-    this.oscGain.gain.linearRampToValueAtTime(this.sVel, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d));
+    this.oscGain.gain.linearRampToValueAtTime(1.0, this.ac.currentTime+this.adsrEnv.a);
+    this.oscGain.gain.linearRampToValueAtTime(this.sVel, this.ac.currentTime+this.adsrEnv.a+this.adsrEnv.d);
+    this.oscGain.gain.linearRampToValueAtTime(this.sVel, this.ac.currentTime+this.adsrEnv.a+this.adsrEnv.d+this.adsrEnv.s);
 
-    this.stop(time);
+    this.stop(this.ac.currentTime+this.adsrEnv.a+this.adsrEnv.d+this.adsrEnv.s);
   }
 
-  stop(time=0) {
+  stop(currentTime=0) {
     try {
-      this.oscGain.gain.linearRampToValueAtTime(0.0, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
-      this.osc.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
+      this.oscGain.gain.linearRampToValueAtTime(0.0, currentTime+this.adsrEnv.r);
+      this.osc.stop(currentTime+this.adsrEnv.r);
+
     } catch(err) {
         console.log(err);
     }
@@ -138,7 +140,8 @@ class SynthFM extends Synth {
     this.carrierGain.disconnect(time);
   }
 
-  start(time=0) {
+  start(currentTime=0) {
+    /*
     this.modulator.start(time);
     this.carrier.start(time);
 
@@ -147,13 +150,28 @@ class SynthFM extends Synth {
     this.carrierGain.gain.linearRampToValueAtTime(this.sVel, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d));
 
     this.stop(time);
+    */
+
+    this.modulator.start(0);
+    this.carrier.start(0);
+
+    this.carrierGain.gain.setValueAtTime(0,0);
+    this.carrierGain.gain.linearRampToValueAtTime(1.0, this.ac.currentTime+this.adsrEnv.a);
+    this.carrierGain.gain.linearRampToValueAtTime(this.sVel, this.ac.currentTime+this.adsrEnv.a+this.adsrEnv.d);
+    this.carrierGain.gain.linearRampToValueAtTime(this.sVel, this.ac.currentTime+this.adsrEnv.a+this.adsrEnv.d+this.adsrEnv.s);
+
+    this.stop(this.ac.currentTime+this.adsrEnv.a+this.adsrEnv.d+this.adsrEnv.s);
   }
 
-  stop(time=0) {
+  stop(currentTime=0) {
     try {
-      this.carrierGain.gain.linearRampToValueAtTime(0.0, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
+      /*this.carrierGain.gain.linearRampToValueAtTime(0.0, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
       this.carrier.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
-      this.modulator.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
+      this.modulator.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);*/
+
+      this.carrierGain.gain.linearRampToValueAtTime(0.0, currentTime+this.adsrEnv.r);
+      this.carrier.stop(currentTime+this.adsrEnv.r);
+      this.modulator.stop(currentTime+this.adsrEnv.r);
     } catch(err) {
         console.log(err);
     }
