@@ -12,7 +12,7 @@ const f = _ => {
   }
 
   if (ascending) {
-    return {note: countTo(scaleLength-1), vel:countTo(scaleLength-1)>=2 && countTo(scaleLength-1)<=4? 127: 39, oct: 4};
+    return {note: countTo(scaleLength-1), vel:countTo(scaleLength-1)>=2 && countTo(scaleLength-1)<=4? 127: 39, dur:8, oct: 4};
   } else {
     return {note:countFrom(scaleLength-1), vel:countFrom(scaleLength-1)>=2 && countFrom(scaleLength-1)<=4? 15: 127, dur:1, oct:2};
   }
