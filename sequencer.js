@@ -66,6 +66,7 @@ class Sequencer {
         asynth.audioContext = Sequencer.ac;
 
         const noteObject = Sequencer.beatToMiliSeconds(Sequencer.gen.note);
+        asynth.waveType = 'sawtooth';
         asynth.note = noteObject.note;
         asynth.vel = noteObject.vel;
         asynth.adsr = adsr;
@@ -74,7 +75,7 @@ class Sequencer {
         asynth.connect(scope); // fix
         asynth.connect(Sequencer.ac.destination);
 
-        asynth.start(Sequencer.ac.currentTime);
+        asynth.start();
 
         setTimeout(Sequencer.start, noteObject.dur, Sequencer.sbpm, Sequencer.spattern);
       }
