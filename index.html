@@ -142,14 +142,14 @@ const f = _ => {
 
   // Every 25 notes generate new phrasings
   // if (counter()%25 == 0) {
-  if (counter()%2 == 0) {
-      console.log('New phrasings'+counter());
+  if (counter()%20 == 0) {
+      //console.log('New phrasings'+counter());
       compositionObj = composition(CMinorScale);
   }
 
   phrasing = compositionObj.phrasings[(Object.keys(compositionObj.phrasings))[countTo(Object.keys(compositionObj.phrasings).length-1)]];
   noteIndex = round(rand(0,phrasing.length-1));
-  console.log(phrasing);
+  //console.log(phrasing);
   // for (let i=0; i<10000000; i++){
   //   ac += i;
   // }
@@ -206,9 +206,30 @@ let blah = function(e) {
   }
 }
 
+// Using helper functions round(), rand(), countTo() and countFrom()
+//const CMinorScale = {'c':0, 'd':2, 'ef':3, 'f':5, 'g':7, 'af':8, 'bb':10};
+//const scaleLength = Object.values(CMinorScale).length;
+
+let ascending = true;
+
+const fad = _ => {
+  const ascDescFlag = round(rand(0,countTo(scaleLength-1)));
+
+  if (ascDescFlag == 0 || ascDescFlag == round(scaleLength/2)) {
+    ascending = !ascending;
+  }
+
+  if (ascending) {
+    return {note: countTo(scaleLength-1), vel:countTo(scaleLength-1)>=2 && countTo(scaleLength-1)<=4? 127: 39, dur:8, oct: 4};
+  } else {
+    return {note:countFrom(scaleLength-1), vel:countFrom(scaleLength-1)>=2 && countFrom(scaleLength-1)<=4? 15: 127, dur:1, oct:2};
+  }
+}
+
+
 Sequencer.audioContext = ac; // fix
-Sequencer.generator(CMinorScale, blah).synth('Synth',{a:0,d:0,r:0}).start(100);
-// Sequencer.generator(CMinorScale, blah).midiOut('midi port1').start(160);
+Sequencer.generator(CMinorScale, f).synth('Synth',{a:0,d:0,r:0}).start(100);
+// Sequencer.generator(CMinorScale, fad).midiOut('midi port1').start(100);
 
 document.getElementById("code").innerHTML += '<span>'+composition+f+'</span>';
 
