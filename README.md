@@ -1,5 +1,5 @@
 # fluX
-A nano API for generative music in the browser. Check it out "in action" ➫ https://pd3v.github.io/
+A javascript engine for generative music in the browser. Check it out "in action" ➫ https://pd3v.github.io/
 
 ## How to use it
 Add references into your website project,
