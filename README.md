@@ -37,6 +37,7 @@ const f = _ => {
   }
 }
 
+Sequencer.audioContext = ac;
 // to send those notes to your favorite soft/hard synth
 Sequencer.generator(CMinorScale, f).MIDIOut('midi port1').start(120);
 
