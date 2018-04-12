@@ -38,8 +38,8 @@ const f = _ => {
 }
 
 // to send those notes to your favorite soft/hard synth
-Sequencer.generator(CMinorScale, f).MIDIOut('midi port1').start(120, pattern);
+Sequencer.generator(CMinorScale, f).MIDIOut('midi port1').start(120);
 
 // to send those same notes to fluX's synth 'Synth'
-//Sequencer.generator(CMinorScale, f).synth('Synth').start(120, pattern);
+//Sequencer.generator(CMinorScale, f).synth('Synth').start(120);
 ```
