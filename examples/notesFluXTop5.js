@@ -83,7 +83,9 @@ function draw() {
   const note = notePlaying(); //helper function or instead 'Sequencer.notePlaying';
 
   // Draw a circle with color mapping from note's pitch and size from note's duration
+  // fluX's helper function scaleTo(), scaling from MIDI note (32-82) to hue (0-255)
   fill(scaleTo(35,82,0,255,note.note),100,100,0.5);
+  // scaleTo() scaling from note duration in miliseconds to pixels
   const circleDiameter = scaleTo(125,2000,window.innerWidth*0.7,40,note.dur);
   ellipse(x, y, circleDiameter, circleDiameter);
 
