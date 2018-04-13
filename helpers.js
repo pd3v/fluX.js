@@ -1,4 +1,10 @@
 // Helper functions
+
+// a shorter console.log()
+const cl = s => {
+  return console.log(s);
+}
+
 const counterSeq = _ => {
   return Sequencer.counter;
 }
@@ -28,6 +34,10 @@ const linear = (from, to, spread=to) => {
   return accum;
 }
 
+const notePlaying = _ => {
+  return Sequencer.snotePlaying;
+}
+
 const rand = (min=0, max=1) => {
   return (Math.random()*(max-min)+min);
 }
@@ -38,10 +48,5 @@ const round = (number, precision=0) => {
 }
 
 const scaleTo = (min, max, minTo, maxTo, value) => {
-  return ((value-min)/(max-min))*(maxTo-minTo)+minTo;
-}
-
-// a shorter console.log()
-const cl = s => {
-  return console.log(s);
+  return Math.abs(((value-min)/(max-min))*(maxTo-minTo)+minTo);
 }
