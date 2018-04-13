@@ -3,6 +3,14 @@ class Sequencer {
     return Sequencer.ac;
   }
 
+  static get notePlaying() {
+    return Sequencer.snotePlaying;
+  }
+
+  static set notePlaying(value){
+    Sequencer.snotePlaying = value;
+  }
+
   static set audioContext(value) {
     Sequencer.ac = value;
   }
@@ -72,7 +80,9 @@ class Sequencer {
         asynth.adsr = adsr;
         asynth.adsr.s = noteObject.dur/1000;
 
-        asynth.connect(scope); // fix
+        Sequencer.notePlaying = noteObject;
+
+        // asynth.connect(scope); // fix
         asynth.connect(Sequencer.ac.destination);
 
         asynth.start();
@@ -89,6 +99,8 @@ class Sequencer {
       Sequencer.midiOut = eval('new MidiOut("'+value+'")');
       Sequencer.play = function() {
         const noteObject = Sequencer.gen.note;
+
+        Sequencer.notePlaying = noteObject;
 
         Sequencer.midiOut.sendNote(Sequencer.beatToMiliSeconds(noteObject));
         setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), Sequencer.sbpm, Sequencer.spattern);
