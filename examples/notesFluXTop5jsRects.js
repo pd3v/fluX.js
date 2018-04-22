@@ -14,7 +14,6 @@ var ac = new AudioContext();
 const CMajorScale = {c:0, d:2, e:4, f:5, g:7, a:9, b:11};
 const scaleLength = Object.values(CMajorScale).length;
 
-// matching notesMatrix's rectangle to note being played and display it
 const f = _ => {
   const ascDescFlag = round(rand(0,countTo(scaleLength-1)));
 
