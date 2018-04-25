@@ -7,7 +7,7 @@ class Generator {
           postMessage({note:e.data.f});
         }
     }.toString(),
-')()'], {type: 'application/javascript'}));
+    ')()'], {type: 'application/javascript'}));
 
     Generator.genFunc = genFunc;
     Generator.notesQueue = Array(Generator.QUEUE_SIZE);
