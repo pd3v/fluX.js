@@ -112,6 +112,10 @@ class SynthFM extends Synth {
     this.modulator.connect(this.modulatorGain);
   }
 
+  set waveType(type) {
+    this.carrier.type = type;
+  }
+
   get note() {
     return this.carrier.frequency.value;
   }
@@ -141,17 +145,6 @@ class SynthFM extends Synth {
   }
 
   start(currentTime=0) {
-    /*
-    this.modulator.start(time);
-    this.carrier.start(time);
-
-    this.carrierGain.gain.setValueAtTime(0,0);
-    this.carrierGain.gain.linearRampToValueAtTime(this.sVel, time+this.adsrEnv.a);
-    this.carrierGain.gain.linearRampToValueAtTime(this.sVel, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d));
-
-    this.stop(time);
-    */
-
     this.modulator.start(0);
     this.carrier.start(0);
 
@@ -165,10 +158,6 @@ class SynthFM extends Synth {
 
   stop(currentTime=0) {
     try {
-      /*this.carrierGain.gain.linearRampToValueAtTime(0.0, time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
-      this.carrier.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);
-      this.modulator.stop(time+(this.adsrEnv.s-this.adsrEnv.a-this.adsrEnv.d)+this.adsrEnv.r);*/
-
       this.carrierGain.gain.linearRampToValueAtTime(0.0, currentTime+this.adsrEnv.r);
       this.carrier.stop(currentTime+this.adsrEnv.r);
       this.modulator.stop(currentTime+this.adsrEnv.r);
