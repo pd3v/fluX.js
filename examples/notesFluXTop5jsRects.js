@@ -28,11 +28,10 @@ const f = _ => {
   }
 }
 
-Sequencer.audioContext = ac;
 // fluX's built-in synth
-Sequencer.generator(CMajorScale, f).synth('Synth',{a:0,d:0,r:0.7}).start(80);
+Sequencer.generator(CMajorScale, f).synth('Synth',{a:0,d:0,r:0.7}).start(audioContext, 80);
 // midi output
-// Sequencer.generator(CMajorScale, f).midiOut('midi port1').start(80);
+// Sequencer.generator(CMajorScale, f).midiOut('midi port1').start(audioContexto, 80);
 
 document.getElementById("code").innerHTML += '<span>'+f+'</span>';
 
