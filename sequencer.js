@@ -11,10 +11,6 @@ class Sequencer {
     Sequencer.snotePlaying = value;
   }
 
-  static set audioContext(value) {
-    Sequencer.ac = value;
-  }
-
   get synth() {
     return Sequencer.synth;
   }
@@ -84,10 +80,9 @@ class Sequencer {
 
         // asynth.connect(scope); // fix
         asynth.connect(Sequencer.ac.destination);
-
         asynth.start();
 
-        setTimeout(Sequencer.start, noteObject.dur, Sequencer.sbpm, Sequencer.spattern);
+        setTimeout(Sequencer.start, noteObject.dur, Sequencer.ac, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }
@@ -103,7 +98,7 @@ class Sequencer {
         Sequencer.notePlaying = noteObject;
 
         Sequencer.midiOut.sendNote(Sequencer.beatToMiliSeconds(noteObject));
-        setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), Sequencer.sbpm, Sequencer.spattern);
+        setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), Sequencer.ac, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }
@@ -117,17 +112,22 @@ class Sequencer {
     return this;
   }
 
-  static start(bpm=90, pattern=[4]) {
-    Sequencer.sbpm = bpm;
-    Sequencer.spattern = pattern;
+  static start(audioContext, bpm=90, pattern=[4]) {
+    if (audioContext) {
+      Sequencer.ac = audioContext;
+      Sequencer.sbpm = bpm;
+      Sequencer.spattern = pattern;
 
-    if (!Sequencer.play || Sequencer.play == null) {
-      throw 'No synth or MIDI output set.'
+      if (!Sequencer.play || Sequencer.play == null) {
+        throw 'No synth or MIDI output set.'
+      }
+
+      Sequencer.play(Sequencer.ac);
+
+      Sequencer.counter++;
+      Sequencer.gen.counter = Sequencer.counter;
+    } else {
+        throw 'No audio context set.';
     }
-
-    Sequencer.play();
-
-    Sequencer.counter++;
-    Sequencer.gen.counter = Sequencer.counter;
   }
 }
