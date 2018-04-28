@@ -18,4 +18,4 @@ const f = _ => {
   }
 }
 
-Sequencer.generator(CMinorScale,f).midiOut('midi port1').start(120);
+Sequencer.generator(CMinorScale,f).midiOut('midi port1').start(null,120);

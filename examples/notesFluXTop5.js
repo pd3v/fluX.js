@@ -58,7 +58,7 @@ const f = _ => {
 }
 
 Sequencer.generator(CMinorScale, f).synth('Synth',{a:0.0,d:0,r:0.0}).start(audioContext, 120); // built-in synth
-// Sequencer.generator(CMinorScale, f).midiOut('midi port1').start(audioContext, 120); // MIDI out to your favorite synth
+// Sequencer.generator(CMinorScale, f).midiOut('midi port1').start(null, 120); // MIDI out to your favorite synth
 
 // Based on p5.js demo.
 // This time with circle's color and size changing over time
