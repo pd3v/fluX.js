@@ -65,7 +65,7 @@ class Sequencer {
       Sequencer.play = function() {
         const asynth = eval('new '+Sequencer.synth);
         if (!Sequencer.ac) {
-          throw 'Sequencer has no audio context.';
+          throw 'No audio context set.';
         }
         asynth.audioContext = Sequencer.ac;
 
@@ -98,7 +98,7 @@ class Sequencer {
         Sequencer.notePlaying = noteObject;
 
         Sequencer.midiOut.sendNote(Sequencer.beatToMiliSeconds(noteObject));
-        setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), Sequencer.ac, Sequencer.sbpm, Sequencer.spattern);
+        setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), null, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }
@@ -113,21 +113,13 @@ class Sequencer {
   }
 
   static start(audioContext, bpm=90, pattern=[4]) {
-    if (audioContext) {
-      Sequencer.ac = audioContext;
-      Sequencer.sbpm = bpm;
-      Sequencer.spattern = pattern;
+    Sequencer.ac = audioContext;
+    Sequencer.sbpm = bpm;
+    Sequencer.spattern = pattern;
 
-      if (!Sequencer.play || Sequencer.play == null) {
-        throw 'No synth or MIDI output set.'
-      }
+    Sequencer.play();
 
-      Sequencer.play(Sequencer.ac);
-
-      Sequencer.counter++;
-      Sequencer.gen.counter = Sequencer.counter;
-    } else {
-        throw 'No audio context set.';
-    }
+    Sequencer.counter++;
+    Sequencer.gen.counter = Sequencer.counter;
   }
 }
