@@ -1,9 +1,7 @@
 // Helper functions
 
 // a shorter console.log()
-const cl = s => {
-  return console.log(s);
-}
+var prt = console.log.bind(console);
 
 const counterSeq = _ => {
   return Sequencer.counter;
