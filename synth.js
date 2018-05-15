@@ -89,7 +89,6 @@ class Synth {
     try {
       this.oscGain.gain.linearRampToValueAtTime(0.0, currentTime+this.adsrEnv.r);
       this.osc.stop(currentTime+this.adsrEnv.r);
-
     } catch(err) {
         console.log(err);
     }
@@ -104,7 +103,7 @@ class SynthFM extends Synth {
     this.modulator = ac.createOscillator();
     this.modulator.frequency.setValueAtTime(500, 0);
     this.modulatorGain = ac.createGain();
-    this.modulatorGain.gain.setValueAtTime(10, 0)
+    this.modulatorGain.gain.setValueAtTime(50, 0);
 
     this.carrier.onended = _ => {
       this.disconnect();
@@ -134,7 +133,8 @@ class SynthFM extends Synth {
 
   connect(destination) {
     this.modulatorGain.connect(this.carrier.frequency);
-    this.carrier.connect(destination);
+    this.carrier.connect(this.carrierGain);
+    this.carrierGain.connect(destination);
   }
 
   disconnect(time=0) {
