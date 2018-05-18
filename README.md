@@ -18,7 +18,7 @@ and then use it in your code like this,
 
 ```javascript
 // Using helper functions round(), rand(), countTo() and countFrom()
-const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bb:10};
+const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bf:10};
 const scaleLength = Object.values(CMinorScale).length;
 
 let ascending = true;
@@ -40,6 +40,6 @@ const f = _ => {
 // to send those notes to your favorite soft/hard synth
 Sequencer.generator(CMinorScale, f).midiOut('midi port1').start(null, 120);
 
-// to send those same notes to fluX's synth 'Synth' 
+// to send those same notes to fluX's synth 'Synth'
 //Sequencer.generator(CMinorScale, f).synth('Synth').start(audiocontext, 120);
 ```
