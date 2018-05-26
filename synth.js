@@ -14,6 +14,7 @@ class Synth {
 
   engine() {
     this.osc = this.ac.createOscillator();
+    this.osc.type = 'sine';
     this.oscGain = this.ac.createGain();
     this.osc.onended = _ => {
       this.disconnect();
