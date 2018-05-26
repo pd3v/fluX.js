@@ -1,9 +1,14 @@
 class Generator {
-  constructor(notesScale={c:0}, genFunc=_=>{return {note: 0, vel:0, oct:0}}) {
+  constructor(notesScaleObj={c:0}, genFunc=_=>{return {note: 0, vel:0, oct:0}}) {
     Generator.QUEUE_SIZE = 20;
     Generator.genWorkerBlobURL = URL.createObjectURL(new Blob(['(',
     function() {
         onmessage = function(e) {
+          if (e.data.f.note == undefined || e.data.f.note == null || e.data.f.oct == 0) {
+            e.data.f.vel = 0;
+          }
+          e.data.f.note = e.data.s[e.data.f.note]+(e.data.f.oct)*12;
+
           postMessage({note:e.data.f});
         }
     }.toString(),
@@ -12,7 +17,8 @@ class Generator {
     Generator.genFunc = genFunc;
     Generator.notesQueue = Array(Generator.QUEUE_SIZE);
     Generator.queueIndex = 0;
-    Generator.gScale = notesScale;
+    Generator.gScale = notesScaleObj;
+    Generator.scaleNotes = Object.values(notesScaleObj);
     Generator.counter = 0;
 
     Array.prototype.getAndGen = function(){
@@ -33,13 +39,9 @@ class Generator {
 
     // filling array with generated notes
     if (Generator.queueIndex < Generator.QUEUE_SIZE) {
-		  genWorker.postMessage({f:Generator.genFunc()});
+		  genWorker.postMessage({f:Generator.genFunc(), s:Generator.scaleNotes});
 
   		genWorker.onmessage = function(e) {
-        if (e.data.note.note == undefined || e.data.note.note == null || e.data.note.oct == 0) {
-          e.data.note.vel = 0;
-        }
-        e.data.note.note = Object.values(Generator.gScale)[e.data.note.note]+(e.data.note.oct)*12;
         Generator.notesQueue[Generator.queueIndex] = e.data.note;
         Generator.queueIndex++;
 
