@@ -17,23 +17,25 @@ Add references into your website project,
 and then use it in your code like this,
 
 ```javascript
-// Using helper functions round(), rand(), countTo() and countFrom()
+// Using helper functions round(), rand(), whemMod() [countTo()] and revWhenMod [countFrom()]
 const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bf:10};
-const scaleLength = Object.values(CMinorScale).length;
 
-let ascending = true;
+let f = _ => {
+  let ascending;
+  const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bf:10};
+  const scaleLength = scaleLen(CMinorScale);
+  const ascDescFlag = round(rand(0,whenMod(scaleLength+1)));
 
-const f = _ => {
-  const ascDescFlag = round(rand(0,countTo(scaleLength-1)));
-
-  if (ascDescFlag == 0 || ascDescFlag == round(scaleLength/2)) {
-    ascending = !ascending;
+  if (ascDescFlag <= round((scaleLength-1)/2)) {
+    ascending = true;
+  } else {
+    ascending = false;
   }
 
   if (ascending) {
-    return {note: countTo(scaleLength-1), vel:countTo(scaleLength-1)>=2 && countTo(scaleLength-1)<=4? 127: 39, dur:8, oct: 4};
+    return {note: whenMod(scaleLength-1), vel:whenMod(scaleLength-1)>=0 && whenMod(scaleLength-1)<=3? 127: 39, dur:8, oct: 4};
   } else {
-    return {note:countFrom(scaleLength-1), vel:countFrom(scaleLength-1)>=2 && countFrom(scaleLength-1)<=4? 15: 127, dur:1, oct:2};
+    return {note:revWhenMod(scaleLength-1), vel:revWhenMod(scaleLength-1)>3 && revWhenMod(scaleLength-1)<=scaleLength-1? 15: 127, dur:16, oct:2};
   }
 }
 
