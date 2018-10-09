@@ -63,10 +63,11 @@ class Sequencer {
     if (value != undefined && value != null) {
       Sequencer.synth = value + '('+JSON.stringify(adsr)+')';
       Sequencer.play = function() {
-        const asynth = eval('new '+Sequencer.synth);
         if (!Sequencer.ac) {
           throw 'No audio context set.';
         }
+        const asynth = eval('new '+Sequencer.synth);
+
         asynth.audioContext = Sequencer.ac;
 
         const noteObject = Sequencer.beatToMiliSeconds(Sequencer.gen.note);

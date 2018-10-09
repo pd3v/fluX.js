@@ -1,7 +1,7 @@
 ##0.2
 
-- All evaluation processing of note happens inside a webwork
-- Renaming of some helper functions:
+- All evaluation processing of note happens inside a webwork; Tempo accuracy improved
+- Renaming some helper functions:
 	- **step** for counter
 	- **whenMod** for countTurn
 	- **revWhenMod** for countFrom
