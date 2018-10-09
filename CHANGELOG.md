@@ -7,6 +7,6 @@
 	- **revWhenMod** for countFrom
 	- **log** for console.log()
 	- **saw** for linear
-- Add **scaleLen** returns lenght of JSON object or array
+- Add **scaleLen** - returns lenght of JSON object or array
 
 ___
