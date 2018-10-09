@@ -6,7 +6,7 @@ class Generator {
       onmessage = function(e) {
         eval(e.data.h)(this, e.data.c);
         let f = eval(e.data.f)();
-        if (e.data.f.note == undefined || e.data.f.note == null || e.data.f.oct == 0) {
+        if (e.data.f.note == undefined || e.data.f.note == null) {
           e.data.f.vel = 0;
         }
         f.note = e.data.s[f.note]+(f.oct)*12;
