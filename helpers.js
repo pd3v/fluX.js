@@ -14,19 +14,22 @@ let helpers = ((context,step) => {
     context.countTurn = countTurn => {
       return step%(countTurn+1);
     }
+
     //whenMod, alias for countTurn as in TidalCycles
     context.whenMod = context.countTurn;
 
     context.countFrom = countTurn => {
       return countTurn-(step%(countTurn+1));
     }
-    context.rwhenMod = countFrom;
+
+    //revWhenMod, alias for countFrom as in TidalCycles
+    context.revWhenMod = countFrom;
 
     context.scaleTo = (min, max, minTo, maxTo, value) => {
       return Math.abs(((value-min)/(max-min))*(maxTo-minTo)+minTo);
     }
 
-    context.scaleL = scale => {
+    context.scaleLen = scale => {
       return Object.values(scale).length;
     }
 
@@ -35,13 +38,15 @@ let helpers = ((context,step) => {
       let accum = asc ? from : to;
 
       if (asc) {
-        accum += whenMod(spread)*((to-from)/(spread-1));
+        accum += whenMod(spread)*((to-from)/(spread));
       } else {
         if (spread == to) {spread = from};
-        accum += rwhenMod(spread)*((from-to)/(spread-1));
+        accum += revWhenMod(spread)*((from-to)/(spread));
       }
       return accum;
     }
+    //saw, alias for linear
+    context.saw = context.linear;
 });
 
 // a shorter console.log()
