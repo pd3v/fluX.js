@@ -20,7 +20,8 @@ class Sequencer {
   }
 
   static set midiOutNamePort(value) {
-      Sequencer.midiOut = eval('new MidiOut("'+value+'")');
+      //Sequencer.midiOut = eval('new MidiOut("'+value+'")');
+      Sequencer.midiOut = Function('"use strict";return new MidiOut('+value+')')();
   }
 
   get generator() {
@@ -28,7 +29,9 @@ class Sequencer {
   }
 
   static set generator(scale) {
-    Sequencer.gen = eval('new Generator('+JSON.stringify(scale)+','+f+')');
+    log("static set generator(scale)");
+    //Sequencer.gen = eval('new Generator('+JSON.stringify(scale)+','+f+')');
+    Sequencer.gen = Function('"use strict"; return new Generator('+JSON.stringify(scale)+','+f+')')();
   }
 
   get bpm() {
@@ -66,7 +69,8 @@ class Sequencer {
         if (!Sequencer.ac) {
           throw 'No audio context set.';
         }
-        const asynth = eval('new '+Sequencer.synth);
+        //const asynth = eval('new '+Sequencer.synth);
+        const asynth = Function('"use strict"; return new '+Sequencer.synth)();
 
         asynth.audioContext = Sequencer.ac;
 
@@ -92,7 +96,9 @@ class Sequencer {
 
   static midiOut(value) {
     if (value != undefined && value != null) {
-      Sequencer.midiOut = eval('new MidiOut("'+value+'")');
+      //Sequencer.midiOut = eval('new MidiOut("'+value+'")');
+      //Function('"use strict"; return new Generator('+JSON.stringify(scale)+','+f+')')();
+      Sequencer.midiOut = Function('"use strict"; return new MidiOut("'+value+'")')();
       Sequencer.play = function() {
         const noteObject = Sequencer.gen.note;
 
@@ -109,7 +115,8 @@ class Sequencer {
 
   static generator(scale, f) {
     Sequencer.counter = 0;
-    Sequencer.gen = eval('new Generator('+JSON.stringify(scale)+','+f+')');
+    //Sequencer.gen = eval('new Generator('+JSON.stringify(scale)+','+f+')');
+    Sequencer.gen = Function('"use strict"; return new Generator('+JSON.stringify(scale)+','+f+')')();
     return this;
   }
 

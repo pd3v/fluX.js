@@ -4,8 +4,8 @@ class Generator {
     Generator.genWorkerBlobURL = URL.createObjectURL(new Blob(['(',
     function() {
       onmessage = function(e) {
-        eval(e.data.h)(this, e.data.c);
-        let f = eval(e.data.f)(e.data.s);
+        Function('"use strict"; return('+e.data.h+')')()(this, e.data.c);
+        let f = Function('"use strict"; return('+e.data.f+')')()(e.data.s);
 
         if (e.data.f.note == undefined || e.data.f.note == null) {
           e.data.f.vel = 0;
