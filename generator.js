@@ -5,7 +5,8 @@ class Generator {
     function() {
       onmessage = function(e) {
         eval(e.data.h)(this, e.data.c);
-        let f = eval(e.data.f)();
+        let f = eval(e.data.f)(e.data.s);
+
         if (e.data.f.note == undefined || e.data.f.note == null) {
           e.data.f.vel = 0;
         }

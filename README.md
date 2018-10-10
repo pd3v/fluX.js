@@ -20,10 +20,9 @@ and then use it in your code like this,
 // Using helper functions round(), rand(), whemMod() [countTo()] and revWhenMod [countFrom()]
 const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bf:10};
 
-let f = _ => {
+let f = (notesScale) => {
   let ascending;
-  const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bf:10};
-  const scaleLength = scaleLen(CMinorScale);
+  const scaleLength = scaleLen(notesScale);
   const ascDescFlag = round(rand(0,whenMod(scaleLength+1)));
 
   if (ascDescFlag <= round((scaleLength-1)/2)) {
