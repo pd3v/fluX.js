@@ -17,7 +17,7 @@ Add references into your website project,
 and then use it in your code like this,
 
 ```javascript
-// Using helper functions round(), rand(), whemMod() [countTo()] and revWhenMod [countFrom()]
+// Using helper functions round(), rand(), whenMod() (former countTo()) and revWhenMod (countFrom())
 const CMinorScale = {c:0, d:2, ef:3, f:5, g:7, af:8, bf:10};
 
 let f = (notesScale) => {
