@@ -1,4 +1,4 @@
-# fluX
+# flux.js
 A javascript engine for generative music in the browser. Check it out "in action" ➫ https://pd3v.github.io/
 
 ## How to use it
