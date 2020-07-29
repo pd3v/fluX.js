@@ -2,9 +2,8 @@ class MidiOut {
   constructor(midiOutNamePort){
 		MidiOut.namePort = midiOutNamePort;
 
-    if (navigator.requestMIDIAccess) {
-        navigator.requestMIDIAccess().then(this.success, this.failure);
-    }
+    if (navigator.requestMIDIAccess)
+      navigator.requestMIDIAccess().then(this.success, this.failure);
   }
 
   get outputMIDI() {
@@ -28,13 +27,15 @@ class MidiOut {
   	}
   }
 
-  sendNote(noteObject) {
+  sendNotes(notesObject) {
     if (MidiOut.moutputMIDI != undefined) {
-      const noteOnMessage = [0x90, noteObject.note, noteObject.vel];
-      const noteOffMessage = [0x80, noteObject.note, 0x00];
+      Object.keys(notesObject.notes).forEach(function(k) {
+        MidiOut.moutputMIDI.send([0x90, notesObject.notes[k], notesObject.vel]);
+      });
 
-      MidiOut.moutputMIDI.send(noteOnMessage);
-      MidiOut.moutputMIDI.send(noteOffMessage, performance.now()+noteObject.dur);
+      Object.keys(notesObject.notes).forEach(function(k) {
+        MidiOut.moutputMIDI.send([0x80, notesObject.notes[k], 0x00],performance.now()+notesObject.dur);
+      });
     }
   }
 

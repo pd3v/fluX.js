@@ -3,12 +3,12 @@ class Sequencer {
     return Sequencer.ac;
   }
 
-  static get notePlaying() {
-    return Sequencer.snotePlaying;
+  static get notesPlaying() {
+    return Sequencer.snotesPlaying;
   }
 
-  static set notePlaying(value){
-    Sequencer.snotePlaying = value;
+  static set notesPlaying(value){
+    Sequencer.snotesPlaying = value;
   }
 
   get synth() {
@@ -47,16 +47,16 @@ class Sequencer {
     Sequencer.spattern = value;
   }
 
-  static beatToMiliSeconds(noteObject){
+  static beatToMilliSeconds(notesObject){
     const beat = {128: 31.25, 64: 62.5, 32: 125, 16: 250, 8: 500, 6: 666, 3: 333, 4: 1000, 2: 2000, 1: 4000};
 
-    if (Object.keys(noteObject).includes('dur')) {
-      noteObject.dur = (beat[noteObject.dur < 128 ? noteObject.dur : 128]/1000)/(Sequencer.sbpm/60)*1000;
+    if (Object.keys(notesObject).includes('dur')) {
+      notesObject.dur = (beat[notesObject.dur < 128 ? notesObject.dur : 128]/1000)/(Sequencer.sbpm/60)*1000;
     } else {
-      Object.assign(noteObject, {dur:(beat[Sequencer.spattern[Sequencer.counter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60)*1000});
+      Object.assign(notesObject, {dur:(beat[Sequencer.spattern[Sequencer.counter%Sequencer.spattern.length]]/1000)/(Sequencer.sbpm/60)*1000});
     }
 
-    return noteObject;
+    return notesObject;
   }
 
   static synth(value, adsr={a:0,d:0,r:0}) {
@@ -70,20 +70,20 @@ class Sequencer {
 
         asynth.audioContext = Sequencer.ac;
 
-        const noteObject = Sequencer.beatToMiliSeconds(Sequencer.gen.note);
+        const notesObject = Sequencer.beatToMiliSeconds(Sequencer.gen.notes);
         asynth.waveType = 'triangle';
-        asynth.note = noteObject.note;
-        asynth.vel = noteObject.vel;
+        asynth.notes = notesObject.notes;
+        asynth.vel = notesObject.vel;
         asynth.adsr = adsr;
-        asynth.adsr.s = noteObject.dur/1000;
+        asynth.adsr.s = notesObject.dur/1000;
 
-        Sequencer.notePlaying = noteObject;
+        Sequencer.notesPlaying = notesObject;
 
         asynth.connect(scope); // fix
         asynth.connect(Sequencer.ac.destination);
         asynth.start();
 
-        setTimeout(Sequencer.start, noteObject.dur, Sequencer.ac, Sequencer.sbpm, Sequencer.spattern);
+        setTimeout(Sequencer.start, notesObject.dur, Sequencer.ac, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }
@@ -94,12 +94,12 @@ class Sequencer {
     if (value != undefined && value != null) {
       Sequencer.midiOut = Function('"use strict"; return new MidiOut("'+value+'")')();
       Sequencer.play = function() {
-        const noteObject = Sequencer.gen.note;
+        const notesObject = Sequencer.gen.notes;
 
-        Sequencer.notePlaying = noteObject;
+        Sequencer.notesPlaying = notesObject;
 
-        Sequencer.midiOut.sendNote(Sequencer.beatToMiliSeconds(noteObject));
-        setTimeout(Sequencer.start, Sequencer.beatToMiliSeconds(noteObject.dur), null, Sequencer.sbpm, Sequencer.spattern);
+        Sequencer.midiOut.sendNotes(Sequencer.beatToMilliSeconds(notesObject));
+        setTimeout(Sequencer.start, Sequencer.beatToMilliSeconds(notesObject.dur), null, Sequencer.sbpm, Sequencer.spattern);
       }
       return this;
     }

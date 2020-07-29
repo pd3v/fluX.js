@@ -2,7 +2,7 @@
 A javascript engine for generative music in the browser. Check it out "in action" ➫ https://pd3v.github.io/
 
 ## How to use it
-Add references into your website project,
+Add the following references to your website project,
 
 ```javascript
 
@@ -31,11 +31,10 @@ let f = (notesScale) => {
     ascending = false;
   }
 
-  if (ascending) {
-    return {note: whenMod(scaleLength-1), vel:whenMod(scaleLength-1)>=0 && whenMod(scaleLength-1)<=3? 127: 39, dur:8, oct: 4};
-  } else {
-    return {note:revWhenMod(scaleLength-1), vel:revWhenMod(scaleLength-1)>3 && revWhenMod(scaleLength-1)<=scaleLength-1? 15: 127, dur:16, oct:2};
-  }
+  if (ascending)
+    return {notes:{0:whenMod(scaleLength-1)}, vel:whenMod(scaleLength-1)>=0 && whenMod(scaleLength-1)<=3? 127:39, dur:8, oct:4}; // solo note
+  else
+    return {notes:{0:revWhenMod(scaleLength-1),1:rand(0,scaleLength)}, vel:revWhenMod(scaleLength-1)>3 && revWhenMod(scaleLength-1)<=scaleLength-1? 15:127, dur:16, oct:2}; // 2 notes
 }
 
 // to send those notes to your favorite soft/hard synth

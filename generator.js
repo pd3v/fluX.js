@@ -1,5 +1,5 @@
 class Generator {
-  constructor(notesScaleObj={c:0}, genFunc=_=>{return {note: 0, vel:0, oct:0}}) {
+  constructor(notesScaleObj={c:0}, genFunc=_=>{return {notes:{0:0}, vel:0, oct:0}}) {
     Generator.QUEUE_SIZE = 20;
     Generator.genWorkerBlobURL = URL.createObjectURL(new Blob(['(',
     function() {
@@ -7,12 +7,14 @@ class Generator {
         Function('"use strict"; return('+e.data.h+')')()(this, e.data.c);
         let f = Function('"use strict"; return('+e.data.f+')')()(e.data.s);
 
-        if (e.data.f.note == undefined || e.data.f.note == null) {
+        if (e.data.f.notes == undefined || e.data.f.notes == null)
           e.data.f.vel = 0;
-        }
-        f.note = e.data.s[f.note]+(f.oct)*12;
+      
+        Object.keys(f.notes).forEach(function(k) {
+          f.notes[k] = e.data.s[f.notes[k]]+(f.oct)*12;
+        });
 
-        postMessage({note:f});
+        postMessage({notes:f});
       }
     }.toString(),
     ')()'], {type: 'application/javascript'}));
@@ -29,12 +31,12 @@ class Generator {
       if (Generator.queueIndex < Generator.QUEUE_SIZE/3) {
         Generator.genNote();
       }
-      let note = this[0];
+      let notes = this[0];
       this.copyWithin(0,1);
 
       Generator.queueIndex > 0 ? Generator.queueIndex-- : Generator.queueIndex = 0;
-
-      return note != undefined ? note : {note:0,vel:0,dur:1,oct:3};
+      
+      return notes != undefined ? notes : {notes:{0:0},vel:0,dur:1,oct:3};
     }
   }
 
@@ -46,7 +48,7 @@ class Generator {
 		  genWorker.postMessage({f:Generator.genFunc.toString(), h:Generator.helpers.toString(), s:Generator.scaleNotes, c:Generator.counter});
 
   		genWorker.onmessage = function(e) {
-        Generator.notesQueue[Generator.queueIndex] = e.data.note;
+        Generator.notesQueue[Generator.queueIndex] = e.data.notes;
         Generator.queueIndex++;
 
         Generator.genNote();
@@ -67,11 +69,11 @@ class Generator {
     Generator.gScale = value;
   }
 
-  get note() {
-    return Generator.note();
+  get notes() {
+    return Generator.notes();
   }
 
-  static note(){
+  static notes(){
     return Generator.notesQueue.getAndGen();
   }
 }
